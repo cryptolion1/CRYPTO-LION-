@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <title>Diablo Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('شنطه.jpg'); 
+            background-size: cover;
+            background-position: center;
+            overflow-x: hidden;
+        }
+
+        .welcome-modal {
+            display: flex;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .welcome-message {
+            color: white;
+            font-size: 5rem;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .coin-welcome {
+            width: 150px; 
+            height: 150px; 
+            border-radius: 50%; 
+            margin-bottom: 20px;
+            position: relative; 
+            top: 20px; 
+        }
+
+        .form-container {
+            display: none;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .form-container input {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 1rem; 
+        }
+
+        .form-container button {
+            padding: 10px 20px; 
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+        }
+
+        .form-container button:hover {
+            background-color: #218838;
+        }
+
+        .container {
+            display: none;
+        }
+
+        .coin-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .coin {
+            width: 200px; 
+            height: 200px;
+            cursor: pointer;
+            border-radius: 50%; 
+            margin-top: 20px; 
+            transition: transform 0.1s;
+        }
+
+        .coin.shake {
+            animation: shake 0.5s; 
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0); }
+            25% { transform: translate(-5px); }
+            50% { transform: translate(5px); }
+            75% { transform: translate(-5px); }
+            100% { transform: translate(0); }
+        }
+
+        .battery-container {
+            width: 100px;
+            height: 20px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            position: relative;
+            margin-top: 10px;
+            background-color: #fff;
+        }
+
+        .battery-level {
+            height: 100%;
+            background-color: #28a745;
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            position: relative; 
+            padding: 0 20px; 
+        }
+
+        #title {
+            font-size: 2rem; 
+            color: #000;
+            position: absolute; 
+            top: -30px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center; 
+            color: red; 
+            font-size: 1rem; 
+        }
+      .user-info div {
+            display: inline-block;
+            margin: 5px;
+            background-color: black; 
+            color: red; 
+            padding: 5px 8px; 
+            border-radius: 5px; 
+        }
+
+        .username-box {
+            background-color: black; 
+            border-radius: 5px; 
+            padding: 5px 10px; 
+            margin-right: 10px; 
+            color: red; 
+        }
+
+        .buttons {
+            display: flex; 
+            justify-content: space-around; 
+            margin-top: 100px; 
+            position: relative; 
+            bottom: 0; 
+            left: 50%;
+            transform: translateX(-50%);
+            flex-wrap: wrap; 
+            padding: 10px 0; 
+        }
+
+        .buttons button {
+            margin: 10px;
+            padding: 5px 10px; 
+            font-size: 1rem; 
+            flex: 1; 
+            min-width: 80px; 
+            max-width: 100px; 
+            background-color: #ff9999; 
+            border: none; 
+            border-radius: 10px; 
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #ff6666; 
+        }
+
+        @media (max-width: 600px) {
+            .buttons {
+                flex-wrap: wrap; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-modal" id="welcome-modal">
+        <img src="d22b8446-2f69-4948-b886-dd568ed84b74.jpg" alt="Coin" class="coin-welcome">
+        <h2 class="welcome-message">Welcome to Diablo</h2>
+    </div>
+
+    <div class="form-container" id="registration-form">
+        <input type="text" id="username-input" placeholder="Enter your name" required>
+        <button onclick="registerUser()">Register</button>
+    </div>
+
+    <div class="container" id="main-container">
+        <header>
+            <div class="user-info">
+                <div class="username-box" id="username"></div>
+            </div>
+            <h1 id="title">Diablo</h1>
+            <div class="user-info">
+                <div style="background-color: black; color: red; padding: 5px 8px; border-radius: 5px;"> 
+                    <span id="user-coins">0</span>
+                    <img src="d22b8446-2f69-4948-b886-dd568ed84b74.jpg" alt="Coin" style="width: 20px; height: 20px; vertical-align: middle; border-radius: 50%;">
+                </div>
+            </div>
+        </header>
+
+        <div class="coin-display">
+            <img src="d22b8446-2f69-4948-b886-dd568ed84b74.jpg" alt="Coin" class="coin" id="coin" onclick="addCoins()">
+            <span id="coin-count">0</span>
+            <div class="battery-container">
+                <div class="battery-level" id="battery-level" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="buttons">
+                <button id="invite-button" onclick="inviteFriend()">Invite Friend</button>
+                <button id="earn-button" onclick="earn()">Earn</button>
+                <button id="build-button" onclick="buildFunction()">Build</button>
+                <button id="profile-button" onclick="myProfile()">My Profile</button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let batteryLevel = 100; 
+        let coins = 0; 
+        let username = ''; 
+        let hasRegistered = false; 
+
+        // استرجاع العملات واسم المستخدم من localStorage
+        document.addEventListener("DOMContentLoaded", function() {
+            const storedCoins = localStorage.getItem('coins');
+            const storedUsername = localStorage.getItem('username');
+
+            if (storedCoins) {
+                coins = parseInt(storedCoins);
+                document.getElementById('user-coins').innerText = coins; 
+                document.getElementById('coin-count').innerText = coins; 
+      }
+          if (storedUsername) {
+                username = storedUsername;
+                document.getElementById('username').innerText = username; 
+                hasRegistered = true; 
+            } else {
+                setTimeout(showRegistrationForm, 3000); // عرض نموذج التسجيل بعد 3 ثوانٍ
+            }
+
+            setTimeout(closeWelcomeModal, 3000); // أغلق واجهة الترحيب بعد 3 ثوانٍ
+        });
+
+        function showRegistrationForm() {
+            document.getElementById('welcome-modal').style.display = 'none';
+            document.getElementById('registration-form').style.display = 'block';
+        }
+
+        function addCoins() {
+            if (batteryLevel > 0) {
+                coins += 10; 
+                document.getElementById('user-coins').innerText = coins; 
+                document.getElementById('coin-count').innerText = coins; 
+                localStorage.setItem('coins', coins); 
+                shakeCoin(); 
+                updateBattery(); 
+            } else {
+                alert('Battery is dead. Please wait for it to recharge.');
+            }
+        }
+
+        function shakeCoin() {
+            const coinElement = document.getElementById('coin');
+            coinElement.classList.add('shake'); 
+            setTimeout(() => coinElement.classList.remove('shake'), 500); 
+        }
+
+        function updateBattery() {
+            if (batteryLevel > 0) {
+                batteryLevel -= 1; 
+                document.getElementById('battery-level').style.width = batteryLevel + '%'; 
+            } else {
+                alert('Battery is dead. Please wait for it to recharge.');
+            }
+        }
+
+        function registerUser() {
+            const input = document.getElementById('username-input').value;
+            if (input) {
+                username = input;
+                document.getElementById('username').innerText = username; 
+                document.getElementById('registration-form').style.display = 'none';
+                document.getElementById('main-container').style.display = 'block';
+                localStorage.setItem('username', username); 
+                closeWelcomeModal(); 
+                hasRegistered = true; 
+            }
+        }
+
+        function closeWelcomeModal() {
+            document.getElementById('welcome-modal').style.display = 'none';
+            if (!hasRegistered) {
+                document.getElementById('registration-form').style.display = 'block'; 
+            } else {
+                document.getElementById('main-container').style.display = 'block'; 
+            }
+        }
+
+        function inviteFriend() {
+            alert('Invitation sent!');
+        }
+
+        function earn() {
+            alert('You earned points!');
+        }
+
+        function buildFunction() {
+            alert('Building...');
+        }
+
+        function myProfile() {
+            alert('This is your profile.');
+        }
+    </script>
+</body>
+</html>>
+      
